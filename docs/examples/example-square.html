@@ -1,0 +1,110 @@
+<!--
+svg3d is a JavaScript library for rendering 3D-models in SVG.
+Copyright (C) 2013  Rishin Goswami
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <script type="text/javascript" src="../../lib/sylvester/sylvester.js"></script>
+        <script type="text/javascript" src="../../lib/gl-matrix/gl-matrix.js"></script>
+
+        <script type="text/javascript" src="../../src/js/jscore-collections.js"></script>
+
+        <script type="text/javascript" src="../../src/js/svg3d-canvas.js"></script>
+        <script type="text/javascript" src="../../src/js/svg3d-mesh.js"></script>        
+        <script type="text/javascript" src="../../src/js/svg3d-bspLine.js"></script>
+    </head>
+    <body>
+
+        <div id="logWin" style="background-color: #f0f0f0; float: right; height: 500px; width: 400px; overflow-y: scroll"></div>
+        <script type="text/javascript">
+            var logWin = document.getElementById("logWin");            
+            var logNum = parseInt(0); 
+                        
+            var myconsole = {                
+                log : function(msg) {
+                    logWin.innerHTML = "<div style='color: #999999; border-bottom: 1px solid #d0d0d0'>" + logNum + ": " + msg + "</div>" + logWin.innerHTML;
+                    logNum++;
+                },
+                error: function(msg) {
+                    logWin.innerHTML = "<div style='color: #ed5864; border-bottom: 1px solid #d0d0d0'>" + logNum + ": " + msg + "</div>" + logWin.innerHTML;
+                    logNum++;
+                },
+                warn: function(msg) {
+                    logWin.innerHTML = "<div style='color: #edc558; border-bottom: 1px solid #d0d0d0'>" + logNum + ": " + msg + "</div>" + logWin.innerHTML;
+                    logNum++;
+                }                
+            };
+            
+        </script>
+
+        
+        <div id="test" style="height: 400px; width: 400px; background-color: #eeeeee"></div>
+
+
+        <script type="text/javascript">
+            
+            var divBlock = document.getElementById("test");
+            var canv = new Canvas(divBlock, -200, 200, -200, 200);
+            
+            var refMesh = null;
+            
+            function xrotate() {                
+                var xrot = Math.PI/16;
+                refMesh.transform([1,0,0,0,0,Math.cos(xrot),-Math.sin(xrot),0,0,Math.sin(xrot),Math.cos(xrot),0]);
+                canv.clear();
+                //refMesh.dump();
+                canv.drawMesh(refMesh);
+            }
+            
+            function yrotate() {                
+                var yrot = Math.PI/16;
+                refMesh.transform([Math.cos(yrot),0,Math.sin(yrot),0,0,1,0,0,-Math.sin(yrot),0,Math.cos(yrot),0]);
+                canv.clear();
+                //refMesh.dump();
+                canv.drawMesh(refMesh);
+            }
+            
+            function myclick(evt) {                
+                myconsole.log(this.refFace);
+            }
+            
+
+            var cubeMesh = new Mesh();            
+            // z 0 (lower)
+            cubeMesh.addFace(Mesh.Vertex.asVertexArray([0,0,0, 100,0,0, 100,100,0, 0,100,0]), "#ffffff", 1, "#000000", 1);            
+            // z 100 (upper)
+            cubeMesh.addFace(Mesh.Vertex.asVertexArray([0,0,100, 100,0,100, 100,100,100, 0,100,100]), "#ffffff", 1, "#ff0000", 1);
+            
+            //cubeMesh.dump();
+            refMesh = cubeMesh;
+   
+            
+            canv.drawMesh(refMesh);
+            
+        </script>
+
+
+
+        <button type="button" onclick="xrotate();">xrotate</button>
+        <button type="button" onclick="yrotate();">yrotate</button>
+
+
+    </body>
+</html>

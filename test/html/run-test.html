@@ -1,0 +1,78 @@
+<!--
+svg3d is a JavaScript library for rendering 3D-models in SVG.
+Copyright (C) 2013  Rishin Goswami
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Test Page for mesh</title>
+
+        <link rel="stylesheet" type="text/css" href="../../lib/jasmine/jasmine.css">
+        <script type="text/javascript" src="../../lib/jasmine/jasmine.js"></script>
+        <script type="text/javascript" src="../../lib/jasmine/jasmine-html.js"></script>
+
+        <!-- include source files here... -->   
+        <script type="text/javascript" src="../../lib/sylvester/sylvester.js"></script>
+        <script type="text/javascript" src="../../lib/gl-matrix/gl-matrix.js"></script>
+
+        <script type="text/javascript" src="../../src/js/jscore-collections.js"></script>
+
+        <script type="text/javascript" src="../../src/js/svg3d-canvas.js"></script>
+        <script type="text/javascript" src="../../src/js/svg3d-mesh.js"></script>        
+        <script type="text/javascript" src="../../src/js/svg3d-bspLine.js"></script>
+
+
+        <!-- include spec files here... -->
+        <script type="text/javascript" src="../../test/js/svg3d-mesh-spec.js"></script>
+
+
+        <script type="text/javascript">
+            (function() {
+                var jasmineEnv = jasmine.getEnv();
+                jasmineEnv.updateInterval = 1000;
+
+                var htmlReporter = new jasmine.HtmlReporter();
+
+                jasmineEnv.addReporter(htmlReporter);
+
+                jasmineEnv.specFilter = function(spec) {
+                    return htmlReporter.specFilter(spec);
+                };
+
+                var currentWindowOnload = window.onload;
+
+                window.onload = function() {
+                    if (currentWindowOnload) {
+                        currentWindowOnload();
+                    }
+                    execJasmine();
+                };
+
+                function execJasmine() {
+                    jasmineEnv.execute();
+                }
+
+            })();
+        </script>
+
+
+    </head>
+    <body>
+
+    </body>
+</html>
